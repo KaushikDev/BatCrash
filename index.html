@@ -14,12 +14,12 @@ body{
 margin: 0;
 }
 button{
-margin-top:10px;
-margin-bottom:10px;
-margin-left:40px;
-margin-right:40px;
-width:60px;
-height:60px;
+margin-top:5px;
+margin-bottom:5px;
+margin-left:20px;
+margin-right:20px;
+width:80px;
+height:80px;
 border-radius:50%;
 border-color:black;
 background-color:transparent;
@@ -43,7 +43,7 @@ var gamePieceXLoc = window.innerWidth/10;
 	//This function runs first on window load
 	function gameBegins(){
 		
-		gamePiece = new component(20,20,"white", gamePieceXLoc, gamePieceYLoc);
+		gamePiece = new component(30,30,"C:/Users/Piyush/Desktop/image.jpg", gamePieceXLoc, gamePieceYLoc, "image");
 		score = new component("30px", "Arial", "white", window.innerWidth/50, window.innerHeight/30, "text");
 		gamingArea.start();
 	}
@@ -165,12 +165,12 @@ var gamePieceXLoc = window.innerWidth/10;
 			minHeight = 10;
 			maxHeight = window.innerHeight/4;
 			height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
-			minGap = 30;
+			minGap = 40;
 			maxGap = 60;
 			gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-			
-			obstacles.push(new component(10, height, "white", x, 0));
-			obstacles.push(new component(10, x-height-gap, "white", x, height+gap));
+			var colorObstacle = "hsl("+parseInt(Math.random() * 360, 10) + ",  100%, 50%)";
+			obstacles.push(new component(10, height, colorObstacle, x, 0));
+			obstacles.push(new component(10, x-height-gap, colorObstacle, x, height+gap));
 		
 		}
 		
