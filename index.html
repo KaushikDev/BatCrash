@@ -14,10 +14,15 @@ body{
 margin: 0;
 }
 button{
-margin-top:20px;
-margin-bottom:20px;
-margin-left:20px;
-margin-right:20px;
+margin-top:10px;
+margin-bottom:10px;
+margin-left:40px;
+margin-right:40px;
+width:60px;
+height:60px;
+border-radius:50%;
+border-color:black;
+background-color:transparent;
 }
 canvas {
     border:1px solid #d3d3d3;
@@ -31,22 +36,15 @@ canvas {
 <script>
 //List of global variables
 var gamePiece;
-//var upBtn;
-//var downBtn;
-//var leftBtn;
-//var rightBtn;
 var obstacles=[];
+var score;
 var gamePieceYLoc = window.innerHeight/4;
 var gamePieceXLoc = window.innerWidth/10;
 	//This function runs first on window load
 	function gameBegins(){
 		
 		gamePiece = new component(20,20,"white", gamePieceXLoc, gamePieceYLoc);
-				
-		//upBtn = new component(50,50,"gray", 120, 450);
-		//downBtn = new component(50,50,"gray", 120, 530);
-		//leftBtn = new component(50,50,"gray", 60, 490);
-		//rightBtn = new component(50,50,"gray", 180, 490);
+		score = new component("30px", "Arial", "white", window.innerWidth/50, window.innerHeight/30, "text");
 		gamingArea.start();
 	}
 	
@@ -69,6 +67,12 @@ var gamePieceXLoc = window.innerWidth/10;
 			if(type=="image"){
 				compCtx.drawImage(this.image, this.x, this.y, this.width, this.height);
 			}
+			else if(type=="text"){
+			compCtx.font = this.width+" "+this.height;
+			compCtx.fillStyle = color;
+			compCtx.fillText(this.text, this.x, this.y);
+			}
+			
 			else{
 				compCtx.fillStyle = color;
 				compCtx.fillRect(this.x, this.y, this.width, this.height);
@@ -77,26 +81,11 @@ var gamePieceXLoc = window.innerWidth/10;
 			
 			
 		}
-		
+		//function to set new position
 		this.newPos = function() {
         this.x += this.speedX;
         this.y += this.speedY;        
-		} 
-		
-		
-		//function to check if button component was clicked.
-		/*this.clicked = function(){
-			var left = this.x;
-			var right = this.x + this.width;
-			var top = this.y;
-			var bottom = this.y + this.height;
-			var click =  true;
-				
-				if((bottom<gamingArea.y)||(top>gamingArea.y)||(right<gamingArea.x)||(left>gamingArea.x)){
-					click = false;
-				}
-			return click;	
-		}*/,
+		},
 		
 		//function that accounts for crashWith
 			this.crashWith = function(otherobj) {
@@ -128,30 +117,11 @@ var gamePieceXLoc = window.innerWidth/10;
 			document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 			//counting frames, strating with 0th one
 			this.frameNum=0;
-			//Refreshing(updating the canvas every 20 milliseconds i.e. 50 frames per second.)
-			this.interval = setInterval(updateGamingArea, 20);
+			//Refreshing(updating the canvas every 20 milliseconds i.e. 50 frames per second.)This also controls the speed the game.
+			this.interval = setInterval(updateGamingArea, 10);
 			
 			//Adding event listeners for mouse clicks and touch screen button press.
-			/*window.addEventListener("mousedown", function(e){
-			  gamingArea.x = e.pageX;
-			  gamingArea.y = e.pageY;
-			})
-			window.addEventListener("mouseup", function(e){
-			   gamingArea.x = false; 
-			   gamingArea.y = false;
-			})
-			window.addEventListener("touchstart", function(e){
-			   gamingArea.x = e.pageX;
-			   gamingArea.y = e.pageY;
-			})
-			window.addEventListener("touchend", function(e){
-			   gamingArea.x = false;
-               gamingArea.y = false;
-			})
-			window.addEventListener('touchmove', function (e) {
-            gamingArea.x = e.touches[0].screenX;
-            gamingArea.y = e.touches[0].screenY;
-        })*/
+			
 		},
 
 		//function that clears the gaming area when called.
@@ -176,7 +146,7 @@ var gamePieceXLoc = window.innerWidth/10;
 	//function that updates the gaming area
 	function updateGamingArea(){
 		//stopping the game on obstacles hit
-		var a,b;
+		//var a,b;
 		for(i = 0; i < obstacles.length; i += 1){
 			if(gamePiece.crashWith(obstacles[i])){
 				gamingArea.stop();
@@ -204,34 +174,16 @@ var gamePieceXLoc = window.innerWidth/10;
 		
 		}
 		
+		
 		//moving obstacles and updating
 		for (i = 0; i < obstacles.length; i += 1) {
 			obstacles[i].x += -1;
 			obstacles[i].update();
 		}
 		
-		//moving game piece based on button clicks
-		/*	if (gamingArea.x && gamingArea.y) {
-				if (upBtn.clicked()) {
-					gamePiece.y -= 1;
-				}
-				if (downBtn.clicked()) {
-					gamePiece.y += 1;
-				}
-				if (leftBtn.clicked()) {
-					gamePiece.x += -1;
-				}
-				if (rightBtn.clicked()) {
-					gamePiece.x += 1;
-				}
-			}*/
-	
-		
+		score.text="Score : "+gamingArea.frameNum;
 		//calling updates for the all the components
-		//upBtn.update();
-		//downBtn.update();
-		//leftBtn.update();
-		//rightBtn.update();
+		score.update();
 		gamePiece.newPos();
         gamePiece.update();
 		
@@ -261,16 +213,16 @@ var gamePieceXLoc = window.innerWidth/10;
 <div class="row text-center">
 
 <div class="col-xs-12">
-<button class="btn btn-lg"  onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+<button  onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
 </div>
 
 <div class="col-xs-12">
-<button class="btn btn-lg" onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
-<button class="btn btn-lg" onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+<button onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+<button onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
 </div>
 
 <div class="col-xs-12">
-<button class="btn btn-lg" onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+<button onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
 </div>
 
 </div>
