@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FlappyCrash</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/daneden/animate.css/master/animate.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<style>
+body{
+margin: 0;
+}
+button{
+margin-top:20px;
+margin-bottom:20px;
+margin-left:20px;
+margin-right:20px;
+}
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: black;
+	
+}
+</style>
+</head>
+<body onload="gameBegins()">
+
+<script>
+//List of global variables
+var gamePiece;
+//var upBtn;
+//var downBtn;
+//var leftBtn;
+//var rightBtn;
+var obstacles=[];
+var gamePieceYLoc = window.innerHeight/4;
+var gamePieceXLoc = window.innerWidth/10;
+	//This function runs first on window load
+	function gameBegins(){
+		
+		gamePiece = new component(20,20,"white", gamePieceXLoc, gamePieceYLoc);
+				
+		//upBtn = new component(50,50,"gray", 120, 450);
+		//downBtn = new component(50,50,"gray", 120, 530);
+		//leftBtn = new component(50,50,"gray", 60, 490);
+		//rightBtn = new component(50,50,"gray", 180, 490);
+		gamingArea.start();
+	}
+	
+	//constructor for creating the gamePiece
+	function component(width, height, color, x, y, type){
+		this.type = type;
+		if(type=="image"){
+			this.image = new Image();
+			this.image.src = color;
+		}
+		this.width = width;
+		this.height = height;
+		this.speedX = 0;
+		this.speedY = 0;
+		this.x = x;
+		this.y = y;
+		//creating an update function for component itself
+		this.update = function(){
+			compCtx = gamingArea.ctx;
+			if(type=="image"){
+				compCtx.drawImage(this.image, this.x, this.y, this.width, this.height);
+			}
+			else{
+				compCtx.fillStyle = color;
+				compCtx.fillRect(this.x, this.y, this.width, this.height);
+			}
+			
+			
+			
+		}
+		
+		this.newPos = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;        
+		} 
+		
+		
+		//function to check if button component was clicked.
+		/*this.clicked = function(){
+			var left = this.x;
+			var right = this.x + this.width;
+			var top = this.y;
+			var bottom = this.y + this.height;
+			var click =  true;
+				
+				if((bottom<gamingArea.y)||(top>gamingArea.y)||(right<gamingArea.x)||(left>gamingArea.x)){
+					click = false;
+				}
+			return click;	
+		}*/,
+		
+		//function that accounts for crashWith
+			this.crashWith = function(otherobj) {
+			var myleft = this.x;
+			var myright = this.x + (this.width);
+			var mytop = this.y;
+			var mybottom = this.y + (this.height);
+			var otherleft = otherobj.x;
+			var otherright = otherobj.x + (otherobj.width);
+			var othertop = otherobj.y;
+			var otherbottom = otherobj.y + (otherobj.height);
+			var crash = true;
+			if ((mybottom < othertop) || (mytop > otherbottom) || (			myright < otherleft) || (myleft > otherright)) {
+				crash = false;
+			}
+			return crash;
+		}
+	}
+
+	//Creating the area(a json object) where all canvas and it's components are and where game is played
+	var gamingArea = {
+		canvas: document.createElement("canvas"),
+		
+		//function that defines what happens inside Gaming Area when Game begins
+		start:function(){
+			this.canvas.width = window.innerWidth;
+			this.canvas.height = window.innerHeight/2;
+			this.ctx = this.canvas.getContext("2d");
+			document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+			//counting frames, strating with 0th one
+			this.frameNum=0;
+			//Refreshing(updating the canvas every 20 milliseconds i.e. 50 frames per second.)
+			this.interval = setInterval(updateGamingArea, 20);
+			
+			//Adding event listeners for mouse clicks and touch screen button press.
+			/*window.addEventListener("mousedown", function(e){
+			  gamingArea.x = e.pageX;
+			  gamingArea.y = e.pageY;
+			})
+			window.addEventListener("mouseup", function(e){
+			   gamingArea.x = false; 
+			   gamingArea.y = false;
+			})
+			window.addEventListener("touchstart", function(e){
+			   gamingArea.x = e.pageX;
+			   gamingArea.y = e.pageY;
+			})
+			window.addEventListener("touchend", function(e){
+			   gamingArea.x = false;
+               gamingArea.y = false;
+			})
+			window.addEventListener('touchmove', function (e) {
+            gamingArea.x = e.touches[0].screenX;
+            gamingArea.y = e.touches[0].screenY;
+        })*/
+		},
+
+		//function that clears the gaming area when called.
+		clear:function(){
+			this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
+		},
+		
+		//function to stop the interval when game piece hits the obstacle
+		stop:function(){
+		clearInterval(this.interval);
+		}
+	}
+
+	//function returns true if the current framenumber corresponds with the given interval.
+	function eachInterval(n){
+		if((gamingArea.frameNum/n)%1==0){
+			return true;
+		}
+		return false;
+	}
+	
+	//function that updates the gaming area
+	function updateGamingArea(){
+		//stopping the game on obstacles hit
+		var a,b;
+		for(i = 0; i < obstacles.length; i += 1){
+			if(gamePiece.crashWith(obstacles[i])){
+				gamingArea.stop();
+				return;
+			}
+		
+		}
+		
+		//calling clear inside GamingArea function to update Gaming Area
+		gamingArea.clear();
+		
+		//incrementing new frame and calling new obstacle
+		gamingArea.frameNum +=1;
+		if(gamingArea.frameNum == 1 || eachInterval(200)){
+			x = gamingArea.canvas.width;
+			minHeight = 10;
+			maxHeight = window.innerHeight/4;
+			height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+			minGap = 30;
+			maxGap = 60;
+			gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+			
+			obstacles.push(new component(10, height, "white", x, 0));
+			obstacles.push(new component(10, x-height-gap, "white", x, height+gap));
+		
+		}
+		
+		//moving obstacles and updating
+		for (i = 0; i < obstacles.length; i += 1) {
+			obstacles[i].x += -1;
+			obstacles[i].update();
+		}
+		
+		//moving game piece based on button clicks
+		/*	if (gamingArea.x && gamingArea.y) {
+				if (upBtn.clicked()) {
+					gamePiece.y -= 1;
+				}
+				if (downBtn.clicked()) {
+					gamePiece.y += 1;
+				}
+				if (leftBtn.clicked()) {
+					gamePiece.x += -1;
+				}
+				if (rightBtn.clicked()) {
+					gamePiece.x += 1;
+				}
+			}*/
+	
+		
+		//calling updates for the all the components
+		//upBtn.update();
+		//downBtn.update();
+		//leftBtn.update();
+		//rightBtn.update();
+		gamePiece.newPos();
+        gamePiece.update();
+		
+}
+	function moveup() {
+		gamePiece.speedY = -1; 
+	}
+
+	function movedown() {
+		gamePiece.speedY = 1; 
+	}
+
+	function moveleft() {
+		gamePiece.speedX = -1; 
+	}
+
+	function moveright() {
+		gamePiece.speedX = 1; 
+	}
+
+	function clearmove() {
+		gamePiece.speedX = 0; 
+		gamePiece.speedY = 0; 
+	}
+</script>
+<div class="container">
+<div class="row text-center">
+
+<div class="col-xs-12">
+<button class="btn btn-lg"  onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+</div>
+
+<div class="col-xs-12">
+<button class="btn btn-lg" onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+<button class="btn btn-lg" onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+</div>
+
+<div class="col-xs-12">
+<button class="btn btn-lg" onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+</div>
+
+</div>
+</div>
+</body>
+</html>
