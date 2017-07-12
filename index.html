@@ -26,16 +26,22 @@ var obstacles=[];
 
 	//This function runs first on window load
 	function gameBegins(){
-		gamePiece = new component(30,30,"white", 50, 250);
-		upBtn = new component(50,50,"gray", 120, 350);
-		downBtn = new component(50,50,"gray", 120, 430);
-		leftBtn = new component(50,50,"gray", 60, 390);
-		rightBtn = new component(50,50,"gray", 180, 390);
+		gamePiece = new component(20,20,"white", 50, 250);
+				
+		upBtn = new component(50,50,"gray", 120, 450);
+		downBtn = new component(50,50,"gray", 120, 530);
+		leftBtn = new component(50,50,"gray", 60, 490);
+		rightBtn = new component(50,50,"gray", 180, 490);
 		gamingArea.start();
 	}
 	
 	//constructor for creating the gamePiece
-	function component(width, height, color, x, y){
+	function component(width, height, color, x, y, type){
+		this.type = type;
+		if(type=="image"){
+			this.image = new Image();
+			this.image.src = color;
+		}
 		this.width = width;
 		this.height = height;
 		this.x = x;
@@ -43,8 +49,16 @@ var obstacles=[];
 		//creating an update function for component itself
 		this.update = function(){
 			compCtx = gamingArea.ctx;
-			compCtx.fillStyle = color;
-			compCtx.fillRect(this.x, this.y, this.width, this.height);
+			if(type=="image"){
+				compCtx.drawImage(this.image, this.x, this.y, this.width, this.height);
+			}
+			else{
+				compCtx.fillStyle = color;
+				compCtx.fillRect(this.x, this.y, this.width, this.height);
+			}
+			
+			
+			
 		}
 		
 		//function to check if button component was clicked.
@@ -59,6 +73,23 @@ var obstacles=[];
 					click = false;
 				}
 			return click;	
+		},
+		
+		//function that accounts for crashWith
+			this.crashWith = function(otherobj) {
+			var myleft = this.x;
+			var myright = this.x + (this.width);
+			var mytop = this.y;
+			var mybottom = this.y + (this.height);
+			var otherleft = otherobj.x;
+			var otherright = otherobj.x + (otherobj.width);
+			var othertop = otherobj.y;
+			var otherbottom = otherobj.y + (otherobj.height);
+			var crash = true;
+			if ((mybottom < othertop) || (mytop > otherbottom) || (			myright < otherleft) || (myleft > otherright)) {
+				crash = false;
+			}
+			return crash;
 		}
 	}
 
@@ -119,30 +150,30 @@ var obstacles=[];
 	function updateGamingArea(){
 		//stopping the game on obstacles hit
 		var a,b;
-		/*for(i = 0; i < obstacles.length; i += 1){
+		for(i = 0; i < obstacles.length; i += 1){
 			if(gamePiece.crashWith(obstacles[i])){
 				gamingArea.stop();
 				return;
 			}
 		
-		}*/
+		}
 		
 		//calling clear inside GamingArea function to update Gaming Area
 		gamingArea.clear();
 		
 		//incrementing new frame and calling new obstacle
 		gamingArea.frameNum +=1;
-		if(gamingArea.frameNum == 1 || eachInterval(150)){
+		if(gamingArea.frameNum == 1 || eachInterval(200)){
 			x = gamingArea.canvas.width;
-			minHeight = 20;
-			maxHeight = 300;
+			minHeight = 10;
+			maxHeight = 200;
 			height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
-			minGap = 50;
-			maxGap = 150;
+			minGap = 30;
+			maxGap = 60;
 			gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-			//y = gamingArea.canvas.height - 200;
+			
 			obstacles.push(new component(10, height, "white", x, 0));
-			obstacles.push(new component(10, x - height - gap, "white", x, height + gap));
+			obstacles.push(new component(10, x-height-gap-200, "white", x, height+gap));
 		
 		}
 		
@@ -167,12 +198,15 @@ var obstacles=[];
 					gamePiece.x += 1;
 				}
     }
+	
+		
 		//calling updates for the all the components
 		upBtn.update();
 		downBtn.update();
 		leftBtn.update();
 		rightBtn.update();
         gamePiece.update();
+		
 }
 
 </script>
