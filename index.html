@@ -50,10 +50,10 @@ var gamePieceYLoc = window.innerHeight/4;
 var gamePieceXLoc = window.innerWidth/10;
 	//This function runs first on window load
 	function gameBegins(){
-		gamePiece = new component(30,30,"C:/Users/Piyush/Desktop/testDevWorks/FlappyCrash/flappyHappy.jpg", gamePieceXLoc, gamePieceYLoc, "image");
+		gamePiece = new component(30,30,"flappyHappy.jpg", gamePieceXLoc, gamePieceYLoc, "image");
 		imageBackground = new component((window.innerWidth),(window.innerHeight/2),"C:/Users/Piyush/Desktop/testDevWorks/FlappyCrash/background3.png", 0, 0, "background");
-		soundCollision =  new sound("C:/Users/Piyush/Desktop/testDevWorks/FlappyCrash/collision1.mp3");
-		soundBackground = new sound("C:/Users/Piyush/Desktop/testDevWorks/FlappyCrash/greenJungle.mp3");
+		soundCollision =  new sound("collision1.mp3");
+		soundBackground = new sound("greenJungle.mp3");
 		soundBackground.play();
 		score = new component("30px", "Arial", "white", window.innerWidth/50, window.innerHeight/30, "text");
 		gameOverText = new component("40px", "Arial", "black", window.innerWidth/3, window.innerHeight/4, "text");
@@ -195,8 +195,8 @@ var gamePieceXLoc = window.innerWidth/10;
 			maxGap = 80;
 			gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
 			var colorObstacle = "hsl("+parseInt(Math.random() * 360, 10) + ",  100%, 50%)";
-			obstacles.push(new component(10, height, "C:/Users/Piyush/Desktop/testDevWorks/FlappyCrash/snowSpike.jpg", x, 0, "image"));
-			obstacles.push(new component(10, x-height-gap, "C:/Users/Piyush/Desktop/testDevWorks/FlappyCrash/snowSpike.jpg", x, height+gap, "image"));
+			obstacles.push(new component(10, height, "snowSpike.jpg", x, 0, "image"));
+			obstacles.push(new component(10, x-height-gap, "snowSpike.jpg", x, height+gap, "image"));
 		
 		}
 		imageBackground.speedX = -1;
