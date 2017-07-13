@@ -51,7 +51,7 @@ var gamePieceXLoc = window.innerWidth/10;
 	//This function runs first on window load
 	function gameBegins(){
 		gamePiece = new component(30,30,"flappyHappy.jpg", gamePieceXLoc, gamePieceYLoc, "image");
-		imageBackground = new component((window.innerWidth),(window.innerHeight/2),"C:/Users/Piyush/Desktop/testDevWorks/FlappyCrash/background3.png", 0, 0, "background");
+		imageBackground = new component((window.innerWidth),(window.innerHeight/2),"background3.png", 0, 0, "background");
 		soundCollision =  new sound("collision1.mp3");
 		soundBackground = new sound("greenJungle.mp3");
 		soundBackground.play();
@@ -119,7 +119,7 @@ var gamePieceXLoc = window.innerWidth/10;
 			var othertop = otherobj.y;
 			var otherbottom = otherobj.y + (otherobj.height);
 			var crash = true;
-			if ((mybottom < othertop) || (mytop > otherbottom) || (			myright < otherleft) || (myleft > otherright)) {
+			if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
 				crash = false;
 			}
 			return crash;
