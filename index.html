@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 <title>FlappyCrash</title>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -12,6 +12,7 @@
 <style>
 body{
 margin: 0;
+background-color:black;
 }
 button{
 margin-top:5px;
@@ -21,8 +22,10 @@ margin-right:20px;
 width:80px;
 height:80px;
 border-radius:50%;
-border-color:black;
+border-color:white;
 background-color:transparent;
+font-size:40px;
+font-color:white;
 }
 canvas {
     border:1px solid #d3d3d3;
@@ -40,6 +43,7 @@ var obstacles=[];
 var soundCollision;
 var soundBackground;
 var score;
+var gameOverText;
 var gamePieceYLoc = window.innerHeight/4;
 var gamePieceXLoc = window.innerWidth/10;
 	//This function runs first on window load
@@ -49,6 +53,7 @@ var gamePieceXLoc = window.innerWidth/10;
 		soundBackground = new sound("greenJungle.mp3");
 		soundBackground.play();
 		score = new component("30px", "Arial", "white", window.innerWidth/50, window.innerHeight/30, "text");
+		gameOverText = new component("50px", "Arial", "white", window.innerWidth/3, window.innerHeight/4, "text");
 		gamingArea.start();
 	}
 	
@@ -102,7 +107,7 @@ var gamePieceXLoc = window.innerWidth/10;
 			var othertop = otherobj.y;
 			var otherbottom = otherobj.y + (otherobj.height);
 			var crash = true;
-			if ((mybottom < othertop) || (mytop > otherbottom) || (			myright < otherleft) || (myleft > otherright)) {
+			if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
 				crash = false;
 			}
 			return crash;
@@ -155,6 +160,9 @@ var gamePieceXLoc = window.innerWidth/10;
 		for(i = 0; i < obstacles.length; i += 1){
 			if(gamePiece.crashWith(obstacles[i])){
 				soundCollision.play();
+				soundBackground.stop();
+				gameOverText.text = "Game Over";
+				gameOverText.update();
 			    gamingArea.stop();
 				return;
 			}
@@ -188,7 +196,9 @@ var gamePieceXLoc = window.innerWidth/10;
 		}
 		
 		score.text="Score : "+gamingArea.frameNum;
+		
 		//calling updates for the all the components
+		//gameOverText.update();
 		score.update();
 		gamePiece.newPos();
         gamePiece.update();
@@ -234,19 +244,32 @@ var gamePieceXLoc = window.innerWidth/10;
 <div class="row text-center">
 
 <div class="col-xs-12">
-<button  onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+<button  onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()"><i class="fa fa-arrow-up"></i></button>
 </div>
 
 <div class="col-xs-12">
-<button onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
-<button onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+<button onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()"><i class="fa fa-arrow-left"></i></button>
+
+<button onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()"><i class="fa fa-arrow-right"></i></button>
 </div>
 
 <div class="col-xs-12">
-<button onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+<button onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()"><i class="fa fa-arrow-down"></i></button>
 </div>
 
 </div>
+<div class="row text-center" style="margin-top:10px;">
+<div class="col-xs-12">
+<p style="color:white"><i class="fa fa-copyright" ></i>KaushikCodeArts : App by Piyush Kaushik</p>
+</div>
+</div>
+  <div class="row text-center">
+       <div class="col-xs-12">
+	 <a id="fb" class="btn btn-default text-center" style="background-color:transparent;border-color:transparent;" href="https://www.facebook.com/sharer/sharer.php?u=https://KaushikDev.github.io/FlappyCrash" target="_blank"><i class="fa fa-facebook" style="color:white;font-size:20px;"></i></a>
+         <a id="whatsapp" class="btn btn-default text-center" style="background-color:transparent;border-color:transparent;" href="whatsapp://send?text=https://KaushikDev.github.io/FlappyCrash"><i class="fa fa-whatsapp" style="color:white;font-size:20px;"></i></a>
+         <a id="tweet" class="btn btn-default text-center" style="background-color:transparent;border-color:transparent;" href="https://twitter.com/home?status=https://KaushikDev.github.io/FlappyCrash" target="_blank"><i class="fa fa-twitter"  style="color:white;font-size:20px;"></i></a>
+               </div>
+        </div>
 </div>
 </body>
 </html>
