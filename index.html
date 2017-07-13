@@ -12,23 +12,21 @@
 <style>
 body{
 margin: 0;
+padding:0;
 background-color:black;
 }
+
 button{
-margin-top:5px;
-margin-bottom:5px;
-margin-left:20px;
-margin-right:20px;
-width:60px;
-height:60px;
-border-radius:50%;
+width:48%;
+height:10%;
+border-radius:5px;
 border-color:white;
-background-color:transparent;
+background-color:white;
 font-size:40px;
-font-color:white;
 }
+
 i{
-color:white;
+color:black;
 }
 canvas {
     border:1px solid #d3d3d3;
@@ -42,6 +40,7 @@ canvas {
 <script>
 //List of global variables
 var gamePiece;
+var imageBackground;
 var obstacles=[];
 var soundCollision;
 var soundBackground;
@@ -51,19 +50,20 @@ var gamePieceYLoc = window.innerHeight/4;
 var gamePieceXLoc = window.innerWidth/10;
 	//This function runs first on window load
 	function gameBegins(){
-		gamePiece = new component(30,30,"flappyHappy.jpg", gamePieceXLoc, gamePieceYLoc, "image");
-		soundCollision =  new sound("collision1.mp3");
-		soundBackground = new sound("greenJungle.mp3");
+		gamePiece = new component(30,30,"C:/Users/Piyush/Desktop/testDevWorks/FlappyCrash/flappyHappy.jpg", gamePieceXLoc, gamePieceYLoc, "image");
+		imageBackground = new component((window.innerWidth),(window.innerHeight/2),"C:/Users/Piyush/Desktop/testDevWorks/FlappyCrash/background3.png", 0, 0, "background");
+		soundCollision =  new sound("C:/Users/Piyush/Desktop/testDevWorks/FlappyCrash/collision1.mp3");
+		soundBackground = new sound("C:/Users/Piyush/Desktop/testDevWorks/FlappyCrash/greenJungle.mp3");
 		soundBackground.play();
 		score = new component("30px", "Arial", "white", window.innerWidth/50, window.innerHeight/30, "text");
-		gameOverText = new component("40px", "Arial", "white", window.innerWidth/3, window.innerHeight/4, "text");
+		gameOverText = new component("40px", "Arial", "black", window.innerWidth/3, window.innerHeight/4, "text");
 		gamingArea.start();
 	}
 	
 	//constructor for creating the gamePiece
 	function component(width, height, color, x, y, type){
 		this.type = type;
-		if(type=="image"){
+		if(type=="image" || type=="background"){
 			this.image = new Image();
 			this.image.src = color;
 		}
@@ -76,8 +76,12 @@ var gamePieceXLoc = window.innerWidth/10;
 		//creating an update function for component itself
 		this.update = function(){
 			compCtx = gamingArea.ctx;
-			if(type=="image"){
+			if(type=="image" || type=="background"){
 				compCtx.drawImage(this.image, this.x, this.y, this.width, this.height);
+				if(type=="background"){
+					compCtx.drawImage(this.image, this.x+this.width, this.y, this.width, this.height);
+					
+				}
 			}
 			else if(type=="text"){
 			compCtx.font = this.width+" "+this.height;
@@ -96,7 +100,12 @@ var gamePieceXLoc = window.innerWidth/10;
 		//function to set new position
 		this.newPos = function() {
         this.x += this.speedX;
-        this.y += this.speedY;        
+        this.y += this.speedY;  
+			if(this.type=="background"){
+				if(this.x==-(this.width)){
+					this.x=0;
+				}
+			}
 		},
 		
 		//function that accounts for crashWith
@@ -186,12 +195,13 @@ var gamePieceXLoc = window.innerWidth/10;
 			maxGap = 80;
 			gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
 			var colorObstacle = "hsl("+parseInt(Math.random() * 360, 10) + ",  100%, 50%)";
-			obstacles.push(new component(10, height, colorObstacle, x, 0));
-			obstacles.push(new component(10, x-height-gap, colorObstacle, x, height+gap));
+			obstacles.push(new component(10, height, "C:/Users/Piyush/Desktop/testDevWorks/FlappyCrash/snowSpike.jpg", x, 0, "image"));
+			obstacles.push(new component(10, x-height-gap, "C:/Users/Piyush/Desktop/testDevWorks/FlappyCrash/snowSpike.jpg", x, height+gap, "image"));
 		
 		}
-		
-		
+		imageBackground.speedX = -1;
+		imageBackground.newPos();
+		imageBackground.update();
 		//moving obstacles and updating
 		for (i = 0; i < obstacles.length; i += 1) {
 			obstacles[i].x += -1;
@@ -203,6 +213,7 @@ var gamePieceXLoc = window.innerWidth/10;
 		//calling updates for the all the components
 		//gameOverText.update();
 		score.update();
+		
 		gamePiece.newPos();
         gamePiece.update();
 		
@@ -246,25 +257,16 @@ var gamePieceXLoc = window.innerWidth/10;
 <div class="container">
 <div class="row text-center">
 
-<div class="col-xs-6">
+<div class="col-xs-12">
 <button onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()"><i class="fa fa-arrow-left"></i></button>
-</div>
-
-<div class="col-xs-6">
 <button  onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()"><i class="fa fa-arrow-up"></i></button>
-
 </div>
 </div>
 <div class="row text-center">
-<div class="col-xs-6">
+<div class="col-xs-12">
 <button onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()"><i class="fa fa-arrow-right"></i></button>
-
-</div>
-
-<div class="col-xs-6">
 <button onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()"><i class="fa fa-arrow-down"></i></button>
 </div>
-
 </div>
 <div class="row text-center" style="margin-top:10px;">
 <div class="col-xs-12">
