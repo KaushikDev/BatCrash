@@ -15,7 +15,6 @@ margin: 0;
 padding:0;
 background-color:black;
 }
-
 button{
 width:48%;
 height:50%;
@@ -24,7 +23,6 @@ border-color:white;
 background-color:white;
 font-size:40px;
 }
-
 i{
 color:black;
 }
@@ -50,8 +48,8 @@ var gamePieceYLoc = window.innerHeight/4;
 var gamePieceXLoc = window.innerWidth/10;
 	//This function runs first on window load
 	function gameBegins(){
-		gamePiece = new component(60,60,"batNormal.png", gamePieceXLoc, gamePieceYLoc, "image");
-		imageBackground = new component((window.innerWidth),(window.innerHeight/2),"gotham6.jpg", 0, 0, "background");
+		gamePiece = new component(40,40,"batNormal.png", gamePieceXLoc, gamePieceYLoc, "image");
+		imageBackground = new component((window.innerWidth),(window.innerHeight/2),"gotham5.jpg", 0, 0, "background");
 		soundCollision =  new sound("collision1.mp3");
 		soundBackground = new sound("darkKnightTheme.mp3");
 		soundBackground.play();
@@ -125,7 +123,6 @@ var gamePieceXLoc = window.innerWidth/10;
 			return crash;
 		}
 	}
-
 	//Creating the area(a json object) where all canvas and it's components are and where game is played
 	var gamingArea = {
 		canvas: document.createElement("canvas"),
@@ -144,7 +141,6 @@ var gamePieceXLoc = window.innerWidth/10;
 			//Adding event listeners for mouse clicks and touch screen button press.
 			
 		},
-
 		//function that clears the gaming area when called.
 		clear:function(){
 			this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
@@ -156,7 +152,6 @@ var gamePieceXLoc = window.innerWidth/10;
 		
 		}
 	}
-
 	//function returns true if the current framenumber corresponds with the given interval.
 	function eachInterval(n){
 		if((gamingArea.frameNum/n)%1==0){
@@ -190,15 +185,15 @@ var gamePieceXLoc = window.innerWidth/10;
 		
 		//incrementing new frame and calling new obstacle
 		gamingArea.frameNum +=1;
-		if(gamingArea.frameNum == 1 || eachInterval(200)){
+		if(gamingArea.frameNum == 1 || eachInterval(150)){
 			x = gamingArea.canvas.width;
 			y = gamingArea.canvas.height/5;
 			minHeight = 10;
 			maxHeight = window.innerHeight/4;
 			height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
 			console.log("height is :" +height);
-			minGap = 40;
-			maxGap = 80;
+			minGap = 50;
+			maxGap = 70;
 			    gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
 				gap1 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
 				gap2 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
@@ -236,22 +231,18 @@ var gamePieceXLoc = window.innerWidth/10;
 		gamePiece.speedY = -1; 
 		gamePiece.image.src = "batUp.png";
 	}
-
 	function movedown() {
 		gamePiece.speedY = 1; 
 		gamePiece.image.src = "batDown.png";
 	}
-
 	function moveleft() {
 		gamePiece.speedX = -1; 
 		gamePiece.image.src = "batBackward.png";
 	}
-
 	function moveright() {
 		gamePiece.speedX = 1; 
 		gamePiece.image.src = "batForward.png";
 	}
-
 	function clearmove() {
 		gamePiece.speedX = 0; 
 		gamePiece.speedY = 0; 
@@ -289,7 +280,7 @@ var gamePieceXLoc = window.innerWidth/10;
 </div>
 <div class="row text-center" style="margin-top:10px;">
 <div class="col-xs-12">
-<button onclick="location.reload()"><i class="fa fa-refresh"></i></button>
+<button style="width:96%" onclick="location.reload()"><i class="fa fa-refresh"></i></button>
 </div>
 </div>
 <div class="row text-center" style="margin-top:10px;">
