@@ -135,8 +135,8 @@ var gamePieceXLoc = window.innerWidth/10;
 			document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 			//counting frames, strating with 0th one
 			this.frameNum=0;
-			//Refreshing(updating the canvas every 10 milliseconds i.e. 100 frames per second.)This also controls the speed the game.
-			this.interval = setInterval(updateGamingArea, 10);
+			//Refreshing(e.g. updating the canvas every 10 milliseconds i.e. 100 frames per second.)This also controls the speed the game.
+			this.interval = setInterval(updateGamingArea, 6);
 			
 			//Adding event listeners for mouse clicks and touch screen button press.
 			
@@ -163,18 +163,19 @@ var gamePieceXLoc = window.innerWidth/10;
 	//function that updates the gaming area
 	function updateGamingArea(){
 		//stopping the game on obstacles hit
-		//var a,b;
+		
 		for(i = 0; i < obstacles.length; i += 1){
 			if(gamePiece.crashWith(obstacles[i])){
-				//pow begin
-				gamePiece.image.src = "pow.png";
-				gamePiece.update();
-				//pow ends
 				soundCollision.play();
 				soundBackground.stop();
 				gameOverText.text = "Game Over";
 				gameOverText.update();
+				//pow begin
+					gamePiece.image.src = "pow.png";
+					gamePiece.update();
+				//pow ends
 			    gamingArea.stop();
+				
 				return;
 			}
 		
@@ -185,27 +186,32 @@ var gamePieceXLoc = window.innerWidth/10;
 		
 		//incrementing new frame and calling new obstacle
 		gamingArea.frameNum +=1;
-		if(gamingArea.frameNum == 1 || eachInterval(150)){
+		if(gamingArea.frameNum == 1 || eachInterval(220)){
 			x = gamingArea.canvas.width;
 			y = gamingArea.canvas.height/5;
 			minHeight = 10;
 			maxHeight = window.innerHeight/4;
 			height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+			height1 = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+			height2 = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+			height3 = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+			
 			console.log("height is :" +height);
-			minGap = 50;
-			maxGap = 70;
-			    gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-				gap1 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-				gap2 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-				gap3 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-				console.log("gap is :" +gap);
-				console.log("gap1 is :" +gap1);
-				console.log("gap2 is :" +gap2);
-				console.log("gap3 is :" +gap3);
+			//minGap = 50;
+			//maxGap = 80;
+			   // gap = //Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+				
+				//console.log("gap is :" +gap);
+				
 			var colorObstacle = "hsl("+parseInt(Math.random() * 360, 10) + ",  100%, 50%)";
-			obstacles.push(new component(40, 20, "batSignal.png", x, gap, "image"));
-			obstacles.push(new component(40, 20, "batSignal.png", x, gap+gap1+gap2, "image"));
-			obstacles.push(new component(40, 20, "batSignal.png", x, gap+gap1+gap2+gap3, "image"));
+			obstacles.push(new component(40, 30, "batSignal.png", x,height, "image"));
+			obstacles.push(new component(40, 30, "batSignal.png", x,height+90, "image"));
+			obstacles.push(new component(40, 30, "batSignal.png", x,height-90, "image"));
+			obstacles.push(new component(40, 30, "batSignal.png", x,height+180, "image"));
+			obstacles.push(new component(40, 30, "batSignal.png", x,height-180, "image"));
+			obstacles.push(new component(40, 30, "batSignal.png", x,height+270, "image"));
+			obstacles.push(new component(40, 30, "batSignal.png", x,height-270, "image"));
+			
 		
 		}
 		imageBackground.speedX = -1;
@@ -222,9 +228,8 @@ var gamePieceXLoc = window.innerWidth/10;
 		//calling updates for the all the components
 		//gameOverText.update();
 		score.update();
-		
 		gamePiece.newPos();
-        gamePiece.update();
+		gamePiece.update();
 		
 }
 	function moveup() {
