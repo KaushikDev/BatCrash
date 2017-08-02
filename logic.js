@@ -129,7 +129,7 @@ var gamePieceXLoc = window.innerWidth/10;
 		for(i = 0; i < obstacles.length; i += 1){
 			if(gamePiece.crashWith(obstacles[i])){
 				soundCollision.play();
-				soundBackground.stop();
+				soundBackground.pause();
 				gameOverText.text = "Game Over";
 				gameOverText.update();
 				//pow begin
