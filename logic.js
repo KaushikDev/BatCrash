@@ -216,7 +216,7 @@ var gamePieceXLoc = window.innerWidth/10;
 		gamePiece.image.src = "batNormal.png";
 	}
 	
-	function sound(src){
+	/*function sound(src){
 		this.sound = document.createElement("audio");
 		this.sound.src = src;
 		this.sound.setAttribute("preload", "auto");
@@ -229,4 +229,4 @@ var gamePieceXLoc = window.innerWidth/10;
 		this.stop = function(){
 			this.sound.pause();
 		}
-	}
+	}*/
