@@ -12,8 +12,8 @@ var gamePieceXLoc = window.innerWidth/10;
 	function gameBegins(){
 		gamePiece = new component(40,40,"batNormal.png", gamePieceXLoc, gamePieceYLoc, "image");
 		imageBackground = new component((window.innerWidth),(window.innerHeight/2),"gotham5.jpg", 0, 0, "background");
-		soundCollision =  new audio("collision1.mp3");
-		soundBackground = new audio("darkKnightTheme.mp3");
+		soundCollision =  new Audio("collision1.mp3");
+		soundBackground = new Audio("darkKnightTheme.mp3");
 		soundBackground.play();
 		score = new component("30px", "Arial", "white", window.innerWidth/50, window.innerHeight/30, "text");
 		gameOverText = new component("40px", "Arial", "white", window.innerWidth/3, window.innerHeight/4, "text");
