@@ -92,7 +92,7 @@ var gamePieceXLoc = window.innerWidth/10;
 		//function that defines what happens inside Gaming Area when Game begins
 		start:function(){
 			this.canvas.width = window.innerWidth;
-			this.canvas.height = window.innerHeight/2;
+			this.canvas.height = window.innerHeight * 0.55 ;
 			this.ctx = this.canvas.getContext("2d");
 			document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 			//counting frames, strating with 0th one
