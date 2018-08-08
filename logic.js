@@ -14,12 +14,12 @@ console.log(window.innerHeight * 0.05);
 	function gameBegins(){
 		
 		gamePiece = new component(40,40,"batNormal.png", gamePieceXLoc, gamePieceYLoc, "image");
-		imageBackground = new component((window.innerWidth),(window.innerHeight * 0.7),"background3.png", 0, 0, "background");
+		imageBackground = new component((window.innerWidth),(window.innerHeight * 0.7),"gotham2.png", 0, 0, "background");
 		soundCollision =  new Audio("collision1.mp3");
 		soundBackground = new Audio("darkKnightTheme.mp3");
 		soundBackground.play();
-		score = new component("15px", "Arial", "white", window.innerWidth/50, (window.innerHeight * 0.10), "text");
-		gameOverText = new component("40px", "Arial", "white", window.innerWidth/2, window.innerHeight/4, "text");
+		score = new component("15px", "Arial", "white", window.innerWidth/50, (window.innerHeight * 0.05), "text");
+		gameOverText = new component("40px", "Arial", "white", window.innerWidth * 0.5, window.innerHeight/4, "text");
 		gamingArea.start();
 	}
 	
@@ -156,7 +156,7 @@ console.log(window.innerHeight * 0.05);
 			y = gamingArea.canvas.height/5;
 			
 			minHeight = window.innerHeight * 0.05;
-			maxHeight = window.innerHeight * 0.65;
+			maxHeight = window.innerHeight * 0.7;
 	
 			height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
 			height1 = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);

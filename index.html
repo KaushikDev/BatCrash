@@ -20,15 +20,8 @@ border-color:transparent;background-color:transparent;}
 .fa-arrow-circle-o-left,.fa-arrow-circle-o-right,.fa-arrow-circle-o-up,.fa-arrow-circle-o-down {
 color:white;font-size:60px;}
 
-.fa-copyright, .fa-facebook, .fa-whatsapp, .fa-twitter{
-color:black;font-size:auto;}
-
-.fa-refresh{
-color:white;font-size:20px;
-}
-
-#canvasContainer{
-height:60%;width:100%;}
+.fa-copyright, .fa-facebook, .fa-whatsapp, .fa-twitter, .fa-refresh{
+color:black;font-size:15px;}
 
 canvas{ 
 background: black ; display: block; margin: 0 auto; }
@@ -39,8 +32,7 @@ color:white;height:5%;width:100%;background:white}
 #controllerContainer{
 height:20%;width:100%;}
 	
-#refreshContainer{
-height:10%;width:100%;}	
+	
 </style>
 </head>
 <body onload="onLoad()">
@@ -76,21 +68,26 @@ height:10%;width:100%;}
 	</div>
 </div>
 
-<div id="refreshContainer" class="container">
+<!--<div id="refreshContainer" class="container">
 	<div class="row text-center" style="margin-top:10px;">
 		<div class="col-xs-12">
 			<button onclick="location.reload()"><i class="fa fa-refresh"></i></button>
 		</div>
 	</div>
-</div>
+</div>-->
 
 <div id="footerContainer" class="container">
 	<div class="row text-center" style="margin-top:10px;">
-		<div class="col-xs-12">
+		<div class="col-xs-3">
+		<button onclick="location.reload()"><i class="fa fa-refresh"></i></button>
+		</div>
+		<div class="col-xs-3">
 			<a id="fb" class="btn btn-default" href="https://www.facebook.com/sharer/sharer.php?u=https://KaushikDev.github.io/BatCrash" target="_blank"><i class="fa fa-facebook" ></i></a>
-			
+			</div>
+			<div class="col-xs-3">
 			<a id="whatsapp" class="btn btn-default" href="whatsapp://send?text=https://KaushikDev.github.io/BatCrash"><i class="fa fa-whatsapp" ></i></a>
-			
+			</div>
+			<div class="col-xs-3">
 			<a id="tweet" class="btn btn-default" href="https://twitter.com/home?status=https://KaushikDev.github.io/BatCrash" target="_blank"><i class="fa fa-twitter"  ></i></a>
 	    </div>
 	</div>
