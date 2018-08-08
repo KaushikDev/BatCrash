@@ -8,15 +8,18 @@ var score;
 var gameOverText;
 var gamePieceYLoc = window.innerHeight/4;
 var gamePieceXLoc = window.innerWidth/10;
+
+console.log(window.innerHeight * 0.05);
 	//This function runs first on window load
 	function gameBegins(){
+		
 		gamePiece = new component(40,40,"batNormal.png", gamePieceXLoc, gamePieceYLoc, "image");
-		imageBackground = new component((window.innerWidth),(window.innerHeight/2),"gotham5.jpg", 0, 0, "background");
+		imageBackground = new component((window.innerWidth),(window.innerHeight * 0.7),"background3.png", 0, 0, "background");
 		soundCollision =  new Audio("collision1.mp3");
 		soundBackground = new Audio("darkKnightTheme.mp3");
 		soundBackground.play();
-		score = new component("30px", "Arial", "white", window.innerWidth/50, window.innerHeight/30, "text");
-		gameOverText = new component("40px", "Arial", "white", window.innerWidth/3, window.innerHeight/4, "text");
+		score = new component("15px", "Arial", "white", window.innerWidth/50, (window.innerHeight * 0.10), "text");
+		gameOverText = new component("40px", "Arial", "white", window.innerWidth/2, window.innerHeight/4, "text");
 		gamingArea.start();
 	}
 	
@@ -88,13 +91,13 @@ var gamePieceXLoc = window.innerWidth/10;
 	//Creating the area(a json object) where all canvas and it's components are and where game is played
 	var gamingArea = {
 		canvas: document.createElement("canvas"),
-		
+		//canvas: document.getElementById("cnv"),
 		//function that defines what happens inside Gaming Area when Game begins
 		start:function(){
 			this.canvas.width = window.innerWidth;
-			this.canvas.height = window.innerHeight/2;
+			this.canvas.height = window.innerHeight * 0.7;
 			this.ctx = this.canvas.getContext("2d");
-			document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+			document.body.insertBefore(this.canvas, document.body.childNodes[3]);
 			//counting frames, strating with 0th one
 			this.frameNum=0;
 			//Refreshing(e.g. updating the canvas every 10 milliseconds i.e. 100 frames per second.)This also controls the speed the game.
@@ -105,7 +108,7 @@ var gamePieceXLoc = window.innerWidth/10;
 		},
 		//function that clears the gaming area when called.
 		clear:function(){
-			this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
+			this.ctx.clearRect(0,window.innerHeight * 0.05,this.canvas.width, this.canvas.height);
 		},
 		
 		//function to stop the interval when game piece hits the obstacle
@@ -151,28 +154,25 @@ var gamePieceXLoc = window.innerWidth/10;
 		if(gamingArea.frameNum == 1 || eachInterval(220)){
 			x = gamingArea.canvas.width;
 			y = gamingArea.canvas.height/5;
-			minHeight = 10;
-			maxHeight = window.innerHeight/4;
+			
+			minHeight = window.innerHeight * 0.05;
+			maxHeight = window.innerHeight * 0.65;
+	
 			height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
 			height1 = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
 			height2 = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
 			height3 = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
-			
+			height4 = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
 			console.log("height is :" +height);
-			//minGap = 50;
-			//maxGap = 80;
-			   // gap = //Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-				
-				//console.log("gap is :" +gap);
+			
 				
 			var colorObstacle = "hsl("+parseInt(Math.random() * 360, 10) + ",  100%, 50%)";
 			obstacles.push(new component(40, 30, "batSignal.png", x,height, "image"));
-			obstacles.push(new component(40, 30, "batSignal.png", x,height+90, "image"));
-			obstacles.push(new component(40, 30, "batSignal.png", x,height-90, "image"));
-			obstacles.push(new component(40, 30, "batSignal.png", x,height+180, "image"));
-			obstacles.push(new component(40, 30, "batSignal.png", x,height-180, "image"));
-			obstacles.push(new component(40, 30, "batSignal.png", x,height+270, "image"));
-			obstacles.push(new component(40, 30, "batSignal.png", x,height-270, "image"));
+			obstacles.push(new component(40, 30, "batSignal.png", x+180,height1, "image"));
+			obstacles.push(new component(40, 30, "batSignal.png", x-180,height2, "image"));
+			obstacles.push(new component(40, 30, "batSignal.png", x+270,height3, "image"));
+			obstacles.push(new component(40, 30, "batSignal.png", x-270,height4, "image"));
+
 			
 		
 		}
@@ -216,17 +216,22 @@ var gamePieceXLoc = window.innerWidth/10;
 		gamePiece.image.src = "batNormal.png";
 	}
 	
-	/*function sound(src){
-		this.sound = document.createElement("audio");
-		this.sound.src = src;
-		this.sound.setAttribute("preload", "auto");
-		this.sound.setAttribute("controls","none");
-		this.sound.style.display="none";
-		document.body.appendChild(this.sound);
-		this.play = function(){
-			this.sound.play();
+	function onLoad() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+		gameBegins();
+        }
+ 
+		function onDeviceReady(){
+		document.addEventListener("backbutton", onBackKeyDown, false);
+		
+		document.addEventListener("saveButton", save, false);
+		devicePlatform = device.platform;
+		console.log(devicePlatform);
 		}
-		this.stop = function(){
-			this.sound.pause();
-		}
-	}*/
+		function onBackKeyDown() {
+			if(confirm("Hey!! You really wanna leave??")){
+				navigator.app.exitApp();
+			}
+ 		}
+	
+	
