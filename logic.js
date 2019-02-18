@@ -15,7 +15,7 @@ console.log(window.innerHeight * 0.05);
 		
 		gamePiece = new component(40,40,"batNormal.png", gamePieceXLoc, gamePieceYLoc, "image");
 		imageBackground = new component((window.innerWidth),(window.innerHeight * 0.7),"gotham2.png", 0, 0, "background");
-		soundCollision =  new Audio("collision1.mp3");
+		soundCollision =  new Audio("jokerLaugh.mp3");
 		soundBackground = new Audio("darkKnightTheme.mp3");
 		soundBackground.play();
 		score = new component("15px", "Arial", "white", window.innerWidth/50, (window.innerHeight * 0.05), "text");
@@ -136,7 +136,7 @@ console.log(window.innerHeight * 0.05);
 				gameOverText.text = "Game Over";
 				gameOverText.update();
 				//pow begin
-					gamePiece.image.src = "pow.png";
+					gamePiece.image.src = "joker.jpg";
 					gamePiece.update();
 				//pow ends
 			    gamingArea.stop();
