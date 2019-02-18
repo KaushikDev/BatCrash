@@ -1,99 +1,82 @@
-<!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-<title>BatCrash</title>
-   <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css" />
+ <head>
+ <title>BatCrash</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="jquery-3.2.1.min.js"></script> 
    <link rel="stylesheet" href="bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css">
-    <script src="jquery-3.2.1.min.js"></script>
-    <script src="bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-<style>
+   <link rel="stylesheet" href="font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css">
+   <script src="bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>	 
+   <link href="https://fonts.googleapis.com/css?family=Cinzel" rel="stylesheet">
+   
+   
+ </head>
+ <body>
+    <style>
 body{
-margin: 0;padding:0;background-color:black;}
+font-family: 'Cinzel', serif;
+font-size: 20px;
+background-color:black;
+}
 
-button, .btn{
-border-color:transparent;background-color:transparent;}
+#header{
+width:auto;
+height: 40%;
+color:white;
+}
+
+#playRow{
+width:auto;
+height: 50%;
+color:white;
+}
 
 
-.fa-arrow-circle-o-left,.fa-arrow-circle-o-right,.fa-arrow-circle-o-up,.fa-arrow-circle-o-down {
-color:white;font-size:60px;}
+#footer{
+width:auto;
+height: 10%;
+color:white;
+}
 
-.fa-copyright, .fa-facebook, .fa-whatsapp, .fa-twitter, .fa-refresh{
-color:black;font-size:15px;}
+a, p{
 
-canvas{ 
-background: black ; display: block; margin: 0 auto; }
+color:white;
+}
+.btn{
+background-color:transparent;
+font-size:100px;
+color:red;
+}
 
-#headerContainer, #footerContainer{
-color:white;height:5%;width:100%;background:white}	
+img{
+height:200px;
+width:200px;
+border-radius:50%;
+border-color:white;
+border-width:2px;
+border-style:solid;
+}
 
-#controllerContainer{
-height:20%;width:100%;}
+	</style>
+	<div class="container">
 	
+		<div id="header" class="row text-center">
+			<h1>Bat Crash!!</h1>
+		</div>
 	
-</style>
-</head>
-<body onload="onLoad()">
-
-<div id="headerContainer" class="container">
-<div class="row text-center">
-<div class="col-xs-12">
-<a href="https://kaushikdev.github.io/portfolio/" style="font-size:auto;color:black;" target="_blank" ><i class="fa fa-copyright" ></i>KaushikCodeArts 2018. All rights reserved.</a>
-</div>
-</div>	
-</div>
-
-<!--<div id="canvasContainer" class="container">-->
-<!--<canvas id="cnv"></canvas>-->
-<!--</div>-->
-
-<div id="controllerContainer" class="container">
-	<div class="row text-center">
-		<div class="col-xs-6">
-			<button onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()"><i class="fa fa-arrow-circle-o-left"></i></button>
-			</div>
-			<div class="col-xs-6">
-			<button  onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()"><i class="fa fa-arrow-circle-o-up"></i></button>
+		<div id="playRow" class="row text-center">
+			<a href="gameScreen.html"><img src="batmanIndex.png"></a>
+			
+			<p>Click to play the Game</p>
 		</div>
-	</div>
-	<div class="row text-center">
-		<div class="col-xs-6">
-			<button onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()"><i class="fa fa-arrow-circle-o-right"></i></button>
-			</div>
-			<div class="col-xs-6">
-			<button onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()"><i class="fa fa-arrow-circle-o-down"></i></button>
+	
+				
+		<div id="footer" class="row text-center">
+			<a href="https://kaushikdev.github.io/portfolio/" target="_blank"><i class="fa fa-copyright" aria-hidden="true"></i>KaushikCodeArts 2019</a>
 		</div>
+	
 	</div>
-</div>
+	
 
-<!--<div id="refreshContainer" class="container">
-	<div class="row text-center" style="margin-top:10px;">
-		<div class="col-xs-12">
-			<button onclick="location.reload()"><i class="fa fa-refresh"></i></button>
-		</div>
-	</div>
-</div>-->
-
-<div id="footerContainer" class="container">
-	<div class="row text-center" style="margin-top:10px;">
-		<div class="col-xs-3">
-		<button onclick="location.reload()"><i class="fa fa-refresh"></i></button>
-		</div>
-		<div class="col-xs-3">
-			<a id="fb" class="btn btn-default" href="https://www.facebook.com/sharer/sharer.php?u=https://KaushikDev.github.io/BatCrash" target="_blank"><i class="fa fa-facebook" ></i></a>
-			</div>
-			<div class="col-xs-3">
-			<a id="whatsapp" class="btn btn-default" href="whatsapp://send?text=https://KaushikDev.github.io/BatCrash"><i class="fa fa-whatsapp" ></i></a>
-			</div>
-			<div class="col-xs-3">
-			<a id="tweet" class="btn btn-default" href="https://twitter.com/home?status=https://KaushikDev.github.io/BatCrash" target="_blank"><i class="fa fa-twitter"  ></i></a>
-	    </div>
-	</div>
-</div>
-
-<script src="logic.js">
-</script>
-</body>
-</html>
+	 
+ </body>
+ </html>

@@ -14,7 +14,7 @@ console.log(window.innerHeight * 0.05);
 	function gameBegins(){
 		
 		gamePiece = new component(40,40,"batNormal.png", gamePieceXLoc, gamePieceYLoc, "image");
-		imageBackground = new component((window.innerWidth),(window.innerHeight * 0.7),"gotham2.png", 0, 0, "background");
+		imageBackground = new component((window.innerWidth),(window.innerHeight * 0.7),"gotham.png", 0, 0, "background");
 		soundCollision =  new Audio("jokerLaugh.mp3");
 		soundBackground = new Audio("darkKnightTheme.mp3");
 		soundBackground.play();
